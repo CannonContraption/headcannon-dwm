@@ -54,9 +54,9 @@ static const Layout layouts[] = {
 #define XF86AudioLowerVolume  0x1008ff11
 #define XF86AudioMute         0x1008ff12
 #define XF86AudioPlay         0x1008ff14
-#define XF86AudioStop         NULL
-#define XF86AudioPrev         NULL
-#define XF86AudioNext         NULL
+#define XF86AudioStop         0x1008ff15
+#define XF86AudioPrev         0x1008ff16
+#define XF86AudioNext         0x1008ff17
 #define XF86MonBrightnessUp   0x1008ff02
 #define XF86MonBrightnessDown 0x1008ff03
 
@@ -101,10 +101,10 @@ static Key keys[] = {
 	{ 0,                 XF86AudioRaiseVolume, spawn,          {.v = volup} },
 	{ 0,                 XF86AudioLowerVolume, spawn,          {.v = voldn} },
 	{ 0,                 XF86AudioMute,        spawn,          {.v = voloff} },
-	/*{ 0,                 XF86AudioPrev,        spawn,          {.v = mediabk} },*/
-	/*{ 0,                 XF86AudioNext,        spawn,          {.v = mediafwd} },*/
+	{ 0,                 XF86AudioPrev,        spawn,          {.v = mediabk} },
+	{ 0,                 XF86AudioNext,        spawn,          {.v = mediafwd} },
 	{ 0,                 XF86AudioPlay,        spawn,          {.v = mediatgl} },
-	/*{ 0,                 XF86AudioStop,        spawn,          {.v = mediastp} },*/
+	{ 0,                 XF86AudioStop,        spawn,          {.v = mediastp} },
 	{ 0,                 XF86MonBrightnessUp,  spawn,          {.v = brightup} },
 	{ 0,                 XF86MonBrightnessDown,spawn,          {.v = brightdn} },
 	/*{ 0,                 XF86Display,          spawn,          {.v = randrcmd} },*/
@@ -129,10 +129,11 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = +1 } },
+	{ MODKEY,                       XK_period, focusmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = -1 } },
+	/* TAG KEYS SECTION-------------------------------------------------*/
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -142,6 +143,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+	/* THE HOLY QUIT KEY-----------------------------------------------*/
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
 };
 
