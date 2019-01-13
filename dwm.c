@@ -234,6 +234,8 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 
+static void checkBattery();
+
 /* variables */
 static const char broken[] = "broken";
 static char stext[256];
@@ -267,6 +269,10 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
+
+static int lowbat = 0;
+static int charging = 2;
+static int batcheckcount = 0;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -714,7 +720,6 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
-	checkBattery();
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
 		if(charging == 1)
@@ -2018,6 +2023,13 @@ updatestatus(void)
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
 		strcpy(stext, "dwm-"VERSION);
 	drawbar(selmon);
+	if(batcheckcount % 6 == 0)
+	{
+		checkBattery();
+		fprintf(stderr, "checked battery.\n");
+		batcheckcount = 0;
+	}
+	batcheckcount ++;
 }
 
 void
@@ -2150,6 +2162,47 @@ zoom(const Arg *arg)
 		if (!c || !(c = nexttiled(c->next)))
 			return;
 	pop(c);
+}
+
+void checkBattery()
+{
+        int batterypercent = 100;
+        FILE * batstat = NULL;
+        batstat = fopen(
+                        "/sys/class/power_supply/BAT1/capacity",
+                        "r");
+        // In this case we're probably not on a laptop, therefore there's no battery
+        if(batstat == NULL)
+                return;
+        char buffer[20];
+        fgets(buffer, 19, batstat);
+        batterypercent = atoi(buffer);
+        /*fprintf(stderr, "%d%% battery detected...", batterypercent);*/
+        if(batterypercent < LOW_BATTERY_LEVEL)
+        {
+                lowbat=1;
+        }
+        else
+                lowbat = 0;
+        fclose(batstat);
+        batstat = NULL;
+        batstat = fopen(
+                        "/sys/class/power_supply/ACAD/online",
+                        "r");
+        strcpy(
+                        buffer,
+                        "");
+        fgets(buffer, 19, batstat);
+	charging = atoi(buffer);
+        /*fprintf(
+                        stderr,
+                        "Battery is %scharging. %d code\n",
+                        charging == 0 ? "not " : "",
+						charging);*/
+	if(charging == 1 && batterypercent == 100)
+		charging = 2;
+	fclose(batstat);
+	batstat = NULL;
 }
 
 int

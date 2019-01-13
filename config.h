@@ -23,8 +23,9 @@ static const char *colors[][3]      = {
 	[SchemeChr]  = { col_gray1, col_yellow,col_yellow},
 	[SchemeFull] = { col_gray1, col_green, col_green },
 };
-int lowbat = 0;
-int charging = 2;
+
+/* Battery settings. Sets up battery monitoring things. */
+#define LOW_BATTERY_LEVEL 20
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -172,41 +173,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
-void checkBattery()
-{
-	int batterypercent = 100;
-	FILE * batstat = NULL;
-	batstat = fopen(
-			"/sys/class/power_supply/BAT1/capacity",
-			"r");
-	// In this case we're probably not on a laptop, therefore there's no battery
-	if(batstat == NULL)
-		return;
-	char buffer[20];
-	fgets(buffer, 19, batstat);
-	batterypercent = atoi(buffer);
-	fprintf(stderr, "%d%% battery detected...", batterypercent);
-	if(batterypercent < 30)
-	{
-		lowbat=1;
-	}
-	else
-		lowbat = 0;
-	fclose(batstat);
-	batstat = NULL;
-	batstat = fopen(
-			"/sys/class/power_supply/ACAD/online",
-			"r");
-	strcpy(
-			buffer,
-			"");
-	fgets(buffer, 19, batstat);
-	charging = atoi(buffer);
-	fprintf(
-			stderr,
-			"Battery is %scharging. %d code\n",
-			charging == 0 ? "not " : "",
-			charging);
-	if(charging == 1 && batterypercent == 100)
-		charging = 2;
-}
