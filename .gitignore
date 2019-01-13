@@ -1,2 +1,3 @@
 *.o
 dwm
+.dwm_errors.log
