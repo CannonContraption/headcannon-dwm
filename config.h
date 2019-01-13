@@ -11,12 +11,20 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#95E454";
+static const char col_green[]        = "#95E454";
+static const char col_red[]         = "#E5786D";
+static const char col_yellow[]      = "#F0DFAF";
+static const char col_blue[]        = "#9AB8D7";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray1, col_cyan,  col_cyan  },
+	[SchemeSel]  = { col_gray1, col_blue,  col_blue  },
+	[SchemeBat]  = { col_gray1, col_red,   col_red   },
+	[SchemeChr]  = { col_gray1, col_yellow,col_yellow},
+	[SchemeFull] = { col_gray1, col_green, col_green },
 };
+int lowbat = 0;
+int charging = 2;
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -65,7 +73,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray1, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_green, "-sf", col_gray1, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *surfcmd[]  = { "surf", "ddg.gg", NULL };
 static const char *ffxcmd[]   = { "firefox", NULL };
@@ -164,3 +172,41 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
+void checkBattery()
+{
+	int batterypercent = 100;
+	FILE * batstat = NULL;
+	batstat = fopen(
+			"/sys/class/power_supply/BAT1/capacity",
+			"r");
+	// In this case we're probably not on a laptop, therefore there's no battery
+	if(batstat == NULL)
+		return;
+	char buffer[20];
+	fgets(buffer, 19, batstat);
+	batterypercent = atoi(buffer);
+	fprintf(stderr, "%d%% battery detected...", batterypercent);
+	if(batterypercent < 30)
+	{
+		lowbat=1;
+	}
+	else
+		lowbat = 0;
+	fclose(batstat);
+	batstat = NULL;
+	batstat = fopen(
+			"/sys/class/power_supply/ACAD/online",
+			"r");
+	strcpy(
+			buffer,
+			"");
+	fgets(buffer, 19, batstat);
+	charging = atoi(buffer);
+	fprintf(
+			stderr,
+			"Battery is %scharging. %d code\n",
+			charging == 0 ? "not " : "",
+			charging);
+	if(charging == 1 && batterypercent == 100)
+		charging = 2;
+}
