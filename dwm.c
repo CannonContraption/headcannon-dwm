@@ -2169,8 +2169,12 @@ void checkBattery()
         int batterypercent = 100;
         FILE * batstat = NULL;
         batstat = fopen(
-                        "/sys/class/power_supply/BAT1/capacity",
+                        "/sys/class/power_supply/BAT0/capacity",
                         "r");
+		if(batstat == NULL)
+			batstat = fopen(
+					"/sys/class/power_supply/BAT1/capacity",
+					"r");
         // In this case we're probably not on a laptop, therefore there's no battery
         if(batstat == NULL)
                 return;
@@ -2187,8 +2191,14 @@ void checkBattery()
         fclose(batstat);
         batstat = NULL;
         batstat = fopen(
-                        "/sys/class/power_supply/ACAD/online",
+                        "/sys/class/power_supply/AC/online",
                         "r");
+		if(batstat == NULL)
+			batstat = fopen(
+					"/sys/class/power_supply/ACAD/online",
+					"r");
+		if(batstat == NULL)
+			return;
         strcpy(
                         buffer,
                         "");
