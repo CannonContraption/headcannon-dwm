@@ -93,7 +93,7 @@ static const char *volup[]    = { "amixer", "sset", "Master", "5%+", NULL };
 static const char *voldn[]    = { "amixer", "sset", "Master", "5%-", NULL };
 static const char *voloff[]   = { "amixer", "set", "Master", "toggle", NULL };
 
-static const char *lockscrn[] = { "screenlock.sh", "-n", NULL };
+static const char *lockscrn[] = { "slock", NULL };
 
 static const char *mediafwd[] = { "mpc", "next", NULL};
 static const char *mediabk[]  = { "mpc", "prev", NULL};
