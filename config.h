@@ -50,10 +50,10 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },       /* first entry is default */
+	{ "|||",      gaplessgrid },/* Grid, no gaps (default) */
+	{ "[]=",      tile },       /* Stack/master tiling */
 	{ "><>",      NULL },       /* no layout function means floating behavior */
 	{ "[M]",      monocle },    /* One window at a time */
-	{ "|||",      gaplessgrid },/* Grid, no gaps */
 };
 
 /* key definitions */
@@ -72,6 +72,7 @@ static const Layout layouts[] = {
 #define XF86AudioNext         0x1008ff17
 #define XF86MonBrightnessUp   0x1008ff02
 #define XF86MonBrightnessDown 0x1008ff03
+#define KEYBOARD_Pause        0xff13
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -93,7 +94,8 @@ static const char *volup[]    = { "amixer", "sset", "Master", "5%+", NULL };
 static const char *voldn[]    = { "amixer", "sset", "Master", "5%-", NULL };
 static const char *voloff[]   = { "amixer", "set", "Master", "toggle", NULL };
 
-static const char *lockscrn[] = { "screenlock.sh", "-n", NULL };
+static const char *lockscrn[] = { "slock", NULL };
+static const char *suspndlk[] = { "slock", "systemctl", "suspend", NULL };
 
 static const char *mediafwd[] = { "mpc", "next", NULL};
 static const char *mediabk[]  = { "mpc", "prev", NULL};
@@ -123,6 +125,7 @@ static Key keys[] = {
 	/*{ 0,                 XF86Display,          spawn,          {.v = randrcmd} },*/
 	{ MODKEY,                       XK_p,      spawn,          {.v = randrcmd} },
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = lockscrn} },
+	{ MODKEY,                  KEYBOARD_Pause, spawn,          {.v = suspndlk} },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = setwallp} },
 	/* WM ACTION SECTION------------------------------------------------*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
