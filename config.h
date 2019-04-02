@@ -85,6 +85,7 @@ static const char *surfcmd[]  = { "qutebrowser", NULL };
 static const char *ffxcmd[]   = { "firefox", NULL };
 static const char *emacscmd[] = { "emacsclient", "-c", NULL };
 static const char *randrcmd[] = { "arandr", NULL };
+static const char *launchcmd[]= { "/home/jim/bin/quicklaunch-dwm", NULL };
 
 /* WM tools spawn arrays */
 static const char *brightup[] = { "xbacklight", "+5", NULL };
@@ -127,6 +128,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = lockscrn} },
 	{ MODKEY,                  KEYBOARD_Pause, spawn,          {.v = suspndlk} },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = setwallp} },
+	{ MODKEY,                       XK_c,      spawn,          {.v = launchcmd} },
 	/* WM ACTION SECTION------------------------------------------------*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
