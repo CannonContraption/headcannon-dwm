@@ -91,9 +91,9 @@ static const char *launchcmd[]= { "/home/jim/bin/quicklaunch-dwm", NULL };
 static const char *brightup[] = { "xbacklight", "+5", NULL };
 static const char *brightdn[] = { "xbacklight", "-5", NULL };
 
-static const char *volup[]    = { "amixer", "sset", "Master", "5%+", NULL };
-static const char *voldn[]    = { "amixer", "sset", "Master", "5%-", NULL };
-static const char *voloff[]   = { "amixer", "set", "Master", "toggle", NULL };
+static const char *volup[]    = { "pactl", "set-sink-volume", "0", "+5%", NULL };
+static const char *voldn[]    = { "pactl", "set-sink-volume", "0", "-5%", NULL };
+static const char *voloff[]   = { "pactl", "set-sink-mute", "0", "toggle", NULL };
 
 static const char *lockscrn[] = { "slock", NULL };
 static const char *suspndlk[] = { "slock", "systemctl", "suspend", NULL };
