@@ -115,8 +115,11 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = emacscmd } },
 	/* WM TOOL SECTION--------------------------------------------------*/
 	{ 0,                 XF86AudioRaiseVolume, spawn,          {.v = volup} },
+	{ MODKEY,                       XK_F3,     spawn,          {.v = volup} },
 	{ 0,                 XF86AudioLowerVolume, spawn,          {.v = voldn} },
+	{ MODKEY,                       XK_F2,     spawn,          {.v = voldn} },
 	{ 0,                 XF86AudioMute,        spawn,          {.v = voloff} },
+	{ MODKEY,                       XK_F4,     spawn,          {.v = voloff} },
 	{ 0,                 XF86AudioPrev,        spawn,          {.v = mediabk} },
 	{ 0,                 XF86AudioNext,        spawn,          {.v = mediafwd} },
 	{ 0,                 XF86AudioPlay,        spawn,          {.v = mediatgl} },
