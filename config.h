@@ -98,6 +98,9 @@ static const char *voloff[]   = { "pactl", "set-sink-mute", "0", "toggle", NULL 
 static const char *lockscrn[] = { "slock", NULL };
 static const char *suspndlk[] = { "slock", "systemctl", "suspend", NULL };
 
+static const char *scrsht[]   = { "scrot", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
+static const char *scrshtwn[] = { "scrot", "-u", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
+
 static const char *mediafwd[] = { "mpc", "next", NULL};
 static const char *mediabk[]  = { "mpc", "prev", NULL};
 static const char *mediatgl[] = { "mpc", "toggle", NULL};
@@ -131,6 +134,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = lockscrn} },
 	{ 0,                       KEYBOARD_Pause, spawn,          {.v = lockscrn} },
 	{ MODKEY,                  KEYBOARD_Pause, spawn,          {.v = suspndlk} },
+	{ 0,                            XK_Print,  spawn,          {.v = scrsht} },
+	{ MODKEY,                       XK_Print,  spawn,          {.v = scrshtwn} },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = setwallp} },
 	{ MODKEY,                       XK_c,      spawn,          {.v = launchcmd} },
 	/* WM ACTION SECTION------------------------------------------------*/
