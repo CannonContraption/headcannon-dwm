@@ -28,7 +28,7 @@ static const char *colors[][3]      = {
 #define LOW_BATTERY_LEVEL 20
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "s" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "←" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -129,6 +129,7 @@ static Key keys[] = {
 	/*{ 0,                 XF86Display,          spawn,          {.v = randrcmd} },*/
 	{ MODKEY,                       XK_p,      spawn,          {.v = randrcmd} },
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = lockscrn} },
+	{ 0,                       KEYBOARD_Pause, spawn,          {.v = lockscrn} },
 	{ MODKEY,                  KEYBOARD_Pause, spawn,          {.v = suspndlk} },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = setwallp} },
 	{ MODKEY,                       XK_c,      spawn,          {.v = launchcmd} },
