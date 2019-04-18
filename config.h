@@ -44,7 +44,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 #include "gaplessgrid.c"
 
@@ -124,12 +124,14 @@ static Key keys[] = {
 	{ 0,                 XF86AudioMute,        spawn,          {.v = voloff} },
 	{ MODKEY,                       XK_F4,     spawn,          {.v = voloff} },
 	{ 0,                 XF86AudioPrev,        spawn,          {.v = mediabk} },
+	{ MODKEY,                       XK_F6,     spawn,          {.v = mediabk} },
 	{ 0,                 XF86AudioNext,        spawn,          {.v = mediafwd} },
+	{ MODKEY,                       XK_F8,     spawn,          {.v = mediafwd} },
 	{ 0,                 XF86AudioPlay,        spawn,          {.v = mediatgl} },
+	{ MODKEY,                       XK_F7,     spawn,          {.v = mediatgl} },
 	{ 0,                 XF86AudioStop,        spawn,          {.v = mediastp} },
 	{ 0,                 XF86MonBrightnessUp,  spawn,          {.v = brightup} },
 	{ 0,                 XF86MonBrightnessDown,spawn,          {.v = brightdn} },
-	/*{ 0,                 XF86Display,          spawn,          {.v = randrcmd} },*/
 	{ MODKEY,                       XK_p,      spawn,          {.v = randrcmd} },
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = lockscrn} },
 	{ 0,                       KEYBOARD_Pause, spawn,          {.v = lockscrn} },
