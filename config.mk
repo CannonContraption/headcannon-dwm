@@ -1,5 +1,5 @@
 # dwm version
-VERSION = 6.1-cannon
+VERSION = 6.2-cannon
 
 # Customize below to fit your system
 
