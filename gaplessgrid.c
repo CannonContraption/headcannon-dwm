@@ -12,8 +12,8 @@ gaplessgrid(Monitor *m) {
 	for(cols = 0; cols <= n/2; cols++)
 		if(cols*cols >= n)
 			break;
-	if(n == 5) /* set layout against the general calculation: not 1:2:2, but 2:3 */
-		cols = 2;
+	/*if(n == 5) / * set layout against the general calculation: not 1:2:2, but 2:3 * /
+		cols = 2;*/
 	rows = n/cols;
 
 	/* window geometries */
