@@ -7,15 +7,15 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Fira Mono:size=9" };
 static const char dmenufont[]       = "Fira Mono:size=9";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_green[]        = "#95E454";
-static const char col_red[]         = "#E5786D";
-static const char col_yellow[]      = "#F0DFAF";
-static const char col_blue[]        = "#9AB8D7";
-static const char *colors[][3]      = {
+static       char col_gray1[]       = "#222222";
+static       char col_gray2[]       = "#444444";
+static       char col_gray3[]       = "#bbbbbb";
+static       char col_gray4[]       = "#eeeeee";
+static       char col_green[]        = "#95E454";
+static       char col_red[]         = "#E5786D";
+static       char col_yellow[]      = "#F0DFAF";
+static       char col_blue[]        = "#9AB8D7";
+static       char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray1, col_blue,  col_blue  },
