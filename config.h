@@ -47,13 +47,15 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 #include "gaplessgrid.c"
+#include "centeredmaster.c"
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },       /* Stack/master tiling (default) */
-	{ "|||",      gaplessgrid },/* Grid, no gaps */
-	{ "><>",      NULL },       /* no layout function means floating behavior */
+	{ "MM=",      tile },       /* Stack/master tiling (default) */
+	{ "M==",      gaplessgrid },/* Grid, no gaps */
+	{ "???",      NULL },       /* no layout function means floating behavior */
 	{ "[M]",      monocle },    /* One window at a time */
+	{ "=M=",      centeredmaster}, /* Like tiled, but master centered */
 };
 
 /* key definitions */
@@ -155,6 +157,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_a,      view,           {.ui = ~0 } },
