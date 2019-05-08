@@ -1,5 +1,5 @@
 # dwm version
-VERSION = 6.2-headcannon
+VERSION = headcannon-6.2.1
 
 # Customize below to fit your system
 
