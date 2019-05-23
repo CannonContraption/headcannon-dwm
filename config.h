@@ -82,66 +82,24 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_green, "-sf", col_gray1, NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char *surfcmd[]  = { "qutebrowser", NULL };
-static const char *ffxcmd[]   = { "firefox", NULL };
-static const char *emacscmd[] = { "emacsclient", "-c", NULL };
-static const char *randrcmd[] = { "arandr", NULL };
-static const char *launchcmd[]= { "/home/jim/bin/quicklaunch-dwm", NULL };
+static const char *termcmd[] = { "st", NULL };
 
 /* WM tools spawn arrays */
-static const char *brightup[] = { "xbacklight", "+5", NULL };
-static const char *brightdn[] = { "xbacklight", "-5", NULL };
-
-static const char *volup[]    = { "pactl", "set-sink-volume", "0", "+5%", NULL };
-static const char *voldn[]    = { "pactl", "set-sink-volume", "0", "-5%", NULL };
-static const char *voloff[]   = { "pactl", "set-sink-mute", "0", "toggle", NULL };
-
 static const char *lockscrn[] = { "slock", NULL };
 static const char *suspndlk[] = { "slock", "systemctl", "suspend", NULL };
 
 static const char *scrsht[]   = { "scrot", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
 static const char *scrshtwn[] = { "scrot", "-u", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
 
-static const char *mediafwd[] = { "mpc", "next", NULL};
-static const char *mediabk[]  = { "mpc", "prev", NULL};
-static const char *mediatgl[] = { "mpc", "toggle", NULL};
-static const char *mediastp[] = { "mpc", "stop", NULL};
-
-static const char *setwallp[] = { "feh", "--randomize", "--bg-fill", "/usr/share/backgrounds/custom", NULL };
-
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	/* SPAWNS SECTION---------------------------------------------------*/
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = ffxcmd } },
-	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = surfcmd } },
-	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = emacscmd } },
 	/* WM TOOL SECTION--------------------------------------------------*/
-	{ 0,                 XF86AudioRaiseVolume, spawn,          {.v = volup} },
-	{ MODKEY,                       XK_F3,     spawn,          {.v = volup} },
-	{ 0,                 XF86AudioLowerVolume, spawn,          {.v = voldn} },
-	{ MODKEY,                       XK_F2,     spawn,          {.v = voldn} },
-	{ 0,                 XF86AudioMute,        spawn,          {.v = voloff} },
-	{ MODKEY,                       XK_F4,     spawn,          {.v = voloff} },
-	{ 0,                 XF86AudioPrev,        spawn,          {.v = mediabk} },
-	{ MODKEY,                       XK_F6,     spawn,          {.v = mediabk} },
-	{ 0,                 XF86AudioNext,        spawn,          {.v = mediafwd} },
-	{ MODKEY,                       XK_F8,     spawn,          {.v = mediafwd} },
-	{ 0,                 XF86AudioPlay,        spawn,          {.v = mediatgl} },
-	{ MODKEY,                       XK_F7,     spawn,          {.v = mediatgl} },
-	{ 0,                 XF86AudioStop,        spawn,          {.v = mediastp} },
-	{ 0,                 XF86MonBrightnessUp,  spawn,          {.v = brightup} },
-	{ 0,                 XF86MonBrightnessDown,spawn,          {.v = brightdn} },
-	{ MODKEY,                       XK_p,      spawn,          {.v = randrcmd} },
-	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = lockscrn} },
 	{ 0,                       KEYBOARD_Pause, spawn,          {.v = lockscrn} },
 	{ MODKEY,                  KEYBOARD_Pause, spawn,          {.v = suspndlk} },
 	{ 0,                            XK_Print,  spawn,          {.v = scrsht} },
 	{ MODKEY,                       XK_Print,  spawn,          {.v = scrshtwn} },
-	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = setwallp} },
-	{ MODKEY,                       XK_c,      spawn,          {.v = launchcmd} },
 	/* WM ACTION SECTION------------------------------------------------*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
