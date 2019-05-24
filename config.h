@@ -7,22 +7,52 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Fira Mono:size=9" };
 static const char dmenufont[]       = "Fira Mono:size=9";
-static       char col_gray1[]       = "#222222";
-static       char col_gray2[]       = "#444444";
-static       char col_gray3[]       = "#bbbbbb";
-static       char col_gray4[]       = "#eeeeee";
-static       char col_green[]        = "#95E454";
+static       char col_grey1[]       = "#222222";
+static       char col_grey2[]       = "#444444";
+static       char col_grey3[]       = "#bbbbbb";
+static       char col_grey4[]       = "#eeeeee";
+static       char col_green[]       = "#95E454";
 static       char col_red[]         = "#E5786D";
 static       char col_yellow[]      = "#F0DFAF";
 static       char col_blue[]        = "#9AB8D7";
-static       char *colors[][3]      = {
+static       char col_grey1leuven[]       = "#d3d3d3";
+static       char col_grey2leuven[]       = "#bebebe";
+static       char col_grey3leuven[]       = "#a9a9a9";
+static       char col_grey4leuven[]       = "#696969";
+static       char col_greenleuven[]       = "#008000";
+static       char col_redleuven[]         = "#ff0b0b";
+static       char col_yellowleuven[]      = "#ff8c00";
+static       char col_blueleuven[]        = "#335ea8";
+             char *colors[][3]      = { 
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray1, col_blue,  col_blue  },
-	[SchemeBat]  = { col_gray1, col_red,   col_red   },
-	[SchemeChr]  = { col_gray1, col_yellow,col_yellow},
-	[SchemeFull] = { col_gray1, col_green, col_green },
+	[SchemeNorm] = { col_grey3, col_grey1, col_grey2 },
+	[SchemeSel]  = { col_grey1, col_blue,  col_blue  },
+	[SchemeBat]  = { col_grey1, col_red,   col_red   },
+	[SchemeChr]  = { col_grey1, col_yellow,col_yellow},
+	[SchemeFull] = { col_grey1, col_green, col_green },
 };
+int csch = 0;
+
+void switchscheme()
+{
+  if(csch == 0)
+    {
+      
+      csch = 1;
+    }
+  else
+    {
+      colors = {
+                /*               fg         bg         border   */
+	[SchemeNorm] = { col_grey3, col_grey1, col_grey2 },
+	[SchemeSel]  = { col_grey1, col_blue,  col_blue  },
+	[SchemeBat]  = { col_grey1, col_red,   col_red   },
+	[SchemeChr]  = { col_grey1, col_yellow,col_yellow},
+	[SchemeFull] = { col_grey1, col_green, col_green },
+      };
+      csch = 0;
+    }
+}
 
 /* Battery settings. Sets up battery monitoring things. */
 #define LOW_BATTERY_LEVEL 20
@@ -81,7 +111,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_green, "-sf", col_gray1, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_grey1, "-nf", col_grey3, "-sb", col_green, "-sf", col_grey1, NULL };
 static const char *termcmd[] = { "st", NULL };
 
 /* WM tools spawn arrays */
