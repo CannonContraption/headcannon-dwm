@@ -17,13 +17,21 @@ static       char col_yellow[]      = "#F0DFAF";
 static       char col_blue[]        = "#9AB8D7";
 static       char col_grey1leuven[]       = "#d3d3d3";
 static       char col_grey2leuven[]       = "#bebebe";
-static       char col_grey3leuven[]       = "#a9a9a9";
+static       char col_grey3leuven[]       = "#020202";
 static       char col_grey4leuven[]       = "#696969";
 static       char col_greenleuven[]       = "#008000";
 static       char col_redleuven[]         = "#ff0b0b";
 static       char col_yellowleuven[]      = "#ff8c00";
 static       char col_blueleuven[]        = "#335ea8";
-             char *colors[][3]      = { 
+static       char *leuvencolors[][3]= {
+        /*               fg         bg         border   */
+	[SchemeNorm] = { col_grey4leuven, col_grey1leuven, col_grey2leuven },
+	[SchemeSel]  = { col_grey1leuven, col_blueleuven,  col_blueleuven  },
+	[SchemeBat]  = { col_grey1leuven, col_redleuven,   col_redleuven   },
+	[SchemeChr]  = { col_grey3leuven, col_yellowleuven,col_yellowleuven},
+	[SchemeFull] = { col_grey1leuven, col_greenleuven, col_greenleuven },
+};                      
+static       char *colors[][3]      = { 
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_grey3, col_grey1, col_grey2 },
 	[SchemeSel]  = { col_grey1, col_blue,  col_blue  },
@@ -35,21 +43,19 @@ int csch = 0;
 
 void switchscheme()
 {
+  int i;
+  free(scheme);
+  scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
   if(csch == 0)
     {
-      
+      for (i = 0; i < LENGTH(leuvencolors); i++)
+        scheme[i] = drw_scm_create(drw, leuvencolors[i], 3);
       csch = 1;
     }
   else
     {
-      colors = {
-                /*               fg         bg         border   */
-	[SchemeNorm] = { col_grey3, col_grey1, col_grey2 },
-	[SchemeSel]  = { col_grey1, col_blue,  col_blue  },
-	[SchemeBat]  = { col_grey1, col_red,   col_red   },
-	[SchemeChr]  = { col_grey1, col_yellow,col_yellow},
-	[SchemeFull] = { col_grey1, col_green, col_green },
-      };
+      for (i = 0; i < LENGTH(colors); i++)
+        scheme[i] = drw_scm_create(drw, colors[i], 3);
       csch = 0;
     }
 }
@@ -131,6 +137,7 @@ static Key keys[] = {
 	{ 0,                            XK_Print,  spawn,          {.v = scrsht} },
 	{ MODKEY,                       XK_Print,  spawn,          {.v = scrshtwn} },
 	/* WM ACTION SECTION------------------------------------------------*/
+	{ MODKEY,                       XK_q,      switchscheme,   {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
