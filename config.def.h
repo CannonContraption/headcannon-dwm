@@ -7,22 +7,58 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Fira Mono:size=9" };
 static const char dmenufont[]       = "Fira Mono:size=9";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_green[]        = "#95E454";
-static const char col_red[]         = "#E5786D";
-static const char col_yellow[]      = "#F0DFAF";
-static const char col_blue[]        = "#9AB8D7";
-static const char *colors[][3]      = {
+static       char col_grey1[]       = "#222222";
+static       char col_grey2[]       = "#444444";
+static       char col_grey3[]       = "#bbbbbb";
+static       char col_grey4[]       = "#eeeeee";
+static       char col_green[]       = "#95E454";
+static       char col_red[]         = "#E5786D";
+static       char col_yellow[]      = "#F0DFAF";
+static       char col_blue[]        = "#9AB8D7";
+static       char col_grey1leuven[]       = "#d3d3d3";
+static       char col_grey2leuven[]       = "#bebebe";
+static       char col_grey3leuven[]       = "#020202";
+static       char col_grey4leuven[]       = "#696969";
+static       char col_greenleuven[]       = "#008000";
+static       char col_redleuven[]         = "#ff0b0b";
+static       char col_yellowleuven[]      = "#ff8c00";
+static       char col_blueleuven[]        = "#335ea8";
+static       char *leuvencolors[][3]= {
+        /*               fg         bg         border   */
+	[SchemeNorm] = { col_grey4leuven, col_grey1leuven, col_grey2leuven },
+	[SchemeSel]  = { col_grey1leuven, col_blueleuven,  col_blueleuven  },
+	[SchemeBat]  = { col_grey1leuven, col_redleuven,   col_redleuven   },
+	[SchemeChr]  = { col_grey3leuven, col_yellowleuven,col_yellowleuven},
+	[SchemeFull] = { col_grey1leuven, col_greenleuven, col_greenleuven },
+};                      
+static       char *colors[][3]      = { 
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray1, col_blue,  col_blue  },
-	[SchemeBat]  = { col_gray1, col_red,   col_red   },
-	[SchemeChr]  = { col_gray1, col_yellow,col_yellow},
-	[SchemeFull] = { col_gray1, col_green, col_green },
+	[SchemeNorm] = { col_grey3, col_grey1, col_grey2 },
+	[SchemeSel]  = { col_grey1, col_blue,  col_blue  },
+	[SchemeBat]  = { col_grey1, col_red,   col_red   },
+	[SchemeChr]  = { col_grey1, col_yellow,col_yellow},
+	[SchemeFull] = { col_grey1, col_green, col_green },
 };
+int csch = 0;
+
+void switchscheme()
+{
+  int i;
+  free(scheme);
+  scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
+  if(csch == 0)
+    {
+      for (i = 0; i < LENGTH(leuvencolors); i++)
+        scheme[i] = drw_scm_create(drw, leuvencolors[i], 3);
+      csch = 1;
+    }
+  else
+    {
+      for (i = 0; i < LENGTH(colors); i++)
+        scheme[i] = drw_scm_create(drw, colors[i], 3);
+      csch = 0;
+    }
+}
 
 /* Battery settings. Sets up battery monitoring things. */
 #define LOW_BATTERY_LEVEL 20
@@ -81,68 +117,27 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_green, "-sf", col_gray1, NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char *surfcmd[]  = { "qutebrowser", NULL };
-static const char *ffxcmd[]   = { "firefox", NULL };
-static const char *emacscmd[] = { "emacsclient", "-c", NULL };
-static const char *randrcmd[] = { "arandr", NULL };
-static const char *launchcmd[]= { "/home/jim/bin/quicklaunch-dwm", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_grey1, "-nf", col_grey3, "-sb", col_green, "-sf", col_grey1, NULL };
+static const char *termcmd[] = { "st", NULL };
 
 /* WM tools spawn arrays */
-static const char *brightup[] = { "xbacklight", "+5", NULL };
-static const char *brightdn[] = { "xbacklight", "-5", NULL };
-
-static const char *volup[]    = { "pactl", "set-sink-volume", "0", "+5%", NULL };
-static const char *voldn[]    = { "pactl", "set-sink-volume", "0", "-5%", NULL };
-static const char *voloff[]   = { "pactl", "set-sink-mute", "0", "toggle", NULL };
-
 static const char *lockscrn[] = { "slock", NULL };
 static const char *suspndlk[] = { "slock", "systemctl", "suspend", NULL };
 
 static const char *scrsht[]   = { "scrot", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
 static const char *scrshtwn[] = { "scrot", "-u", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
 
-static const char *mediafwd[] = { "mpc", "next", NULL};
-static const char *mediabk[]  = { "mpc", "prev", NULL};
-static const char *mediatgl[] = { "mpc", "toggle", NULL};
-static const char *mediastp[] = { "mpc", "stop", NULL};
-
-static const char *setwallp[] = { "feh", "--randomize", "--bg-fill", "/usr/share/backgrounds/custom", NULL };
-
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	/* SPAWNS SECTION---------------------------------------------------*/
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = ffxcmd } },
-	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = surfcmd } },
-	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = emacscmd } },
 	/* WM TOOL SECTION--------------------------------------------------*/
-	{ 0,                 XF86AudioRaiseVolume, spawn,          {.v = volup} },
-	{ MODKEY,                       XK_F3,     spawn,          {.v = volup} },
-	{ 0,                 XF86AudioLowerVolume, spawn,          {.v = voldn} },
-	{ MODKEY,                       XK_F2,     spawn,          {.v = voldn} },
-	{ 0,                 XF86AudioMute,        spawn,          {.v = voloff} },
-	{ MODKEY,                       XK_F4,     spawn,          {.v = voloff} },
-	{ 0,                 XF86AudioPrev,        spawn,          {.v = mediabk} },
-	{ MODKEY,                       XK_F6,     spawn,          {.v = mediabk} },
-	{ 0,                 XF86AudioNext,        spawn,          {.v = mediafwd} },
-	{ MODKEY,                       XK_F8,     spawn,          {.v = mediafwd} },
-	{ 0,                 XF86AudioPlay,        spawn,          {.v = mediatgl} },
-	{ MODKEY,                       XK_F7,     spawn,          {.v = mediatgl} },
-	{ 0,                 XF86AudioStop,        spawn,          {.v = mediastp} },
-	{ 0,                 XF86MonBrightnessUp,  spawn,          {.v = brightup} },
-	{ 0,                 XF86MonBrightnessDown,spawn,          {.v = brightdn} },
-	{ MODKEY,                       XK_p,      spawn,          {.v = randrcmd} },
-	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = lockscrn} },
 	{ 0,                       KEYBOARD_Pause, spawn,          {.v = lockscrn} },
 	{ MODKEY,                  KEYBOARD_Pause, spawn,          {.v = suspndlk} },
 	{ 0,                            XK_Print,  spawn,          {.v = scrsht} },
 	{ MODKEY,                       XK_Print,  spawn,          {.v = scrshtwn} },
-	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = setwallp} },
-	{ MODKEY,                       XK_c,      spawn,          {.v = launchcmd} },
 	/* WM ACTION SECTION------------------------------------------------*/
+	{ MODKEY,                       XK_q,      switchscheme,   {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -162,10 +157,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_a,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_a,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = +1 } },
+	{ MODKEY,                       XK_period, focusmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = -1 } },
 	/* TAG KEYS SECTION-------------------------------------------------*/
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
