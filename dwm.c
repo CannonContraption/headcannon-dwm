@@ -2026,7 +2026,7 @@ updatestatus(void)
 	if(batcheckcount % 6 == 0)
 	{
 		checkBattery();
-		fprintf(stderr, "checked battery.\n");
+		/* fprintf(stderr, "checked battery.\n"); */
 		batcheckcount = 0;
 	}
 	batcheckcount ++;
