@@ -1,3 +1,7 @@
 *.o
+headcannon-dwm
 dwm
 .dwm_errors.log
+*~
+*#
+*.swp

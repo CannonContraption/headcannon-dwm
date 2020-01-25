@@ -1,0 +1,216 @@
+.TH HeadCannon\-DWM 1 HeadCannon\-DWM\-VERSION
+.SH NAME
+headcannon-dwm \- dynamic window manager
+.SH SYNOPSIS
+.B headcannon-dwm
+.RB [ \-v ]
+.SH DESCRIPTION
+headcannon-dwm is a variant of DWM designed by CannonContraption. It includes
+some significant changes over the original DWM, mainly in the form of additional
+layouts and a different default color scheme, among other things. There are four
+main types of layouts in headcannon-dwm- tiled, grid, monocle, and floating.
+These layouts can be applied dynamically, and windows are arranged in a stack
+order, no matter which one is used. Which layout is in use is specific to which
+monitor is currently active.
+.P
+In grid layouts (gaplessgrid, trigapless) the stack is used to order the windows
+and has no bearing on how many windows are in the 'master' position. Increasing
+and decreasing this has no effect. In the gaplessgrid layout, windows are evenly
+arranged in a grid, with extra space made available to windows higher in the
+stack as available. In the trigapless layout, there are three columns and
+vertical space is then partitioned between the windows, with priority being
+given to those windows higher in the stack, like gaplessgrid.
+.P
+In tiled layouts windows are managed in a master and stacking area. The master
+area on the left contains one window by default, and the stacking area on the
+right contains all other windows. The number of master area windows can be
+adjusted from zero to an arbitrary number. There are two tiled layouts by
+default, the standard tiled layout from upstream DWM, and the centeredmaster
+layout, which is mostly the same but arranges the stack on the sides of the
+screen and centers the master.
+.P
+In monocle layout all windows are maximised to the screen size.
+.P
+In floating layout windows can be resized and
+moved freely. Dialog windows are always managed floating, regardless of the
+layout applied.
+.P
+Windows are grouped by tags. Each window can be tagged with one or multiple
+tags. Selecting certain tags displays all windows with these tags.
+.P
+Each screen contains a small status bar which displays all available tags, the
+layout, the title of the focused window, and the text read from the root window
+name property, if the screen is focused. Each layout is represented by three
+characters between the tags list and the window title. The standard tiled layout
+is denoted by MM=, Centered master by =M=, Grid by M==, Trigapless by ===,
+monocle by [#] (where # is the window index in the stack), and floating by ???.
+Which tags are selected is indicated by the highlight color in the background of
+that tag's indicator. If it is filled, the tag is selected. If it has a bar on
+top of the indicator, there is a window there. If the bar is filled, the active
+window exists on that tag. If it is not filled, the active window does not exist
+on that tag.
+.P
+The default configuration does not draw any borders around windows, but that can
+be changed in config.h by increasing the number of pixels wide the border should
+be.
+.P
+HeadCannon-DWM features changing colors depending on battery status, on a
+laptop. This is useful for people who frequently use a laptop, but is disabled
+when no battery is present. This works by checking /sys/class/power_supply in
+Linux to find BAT0/BAT1, and AC/ACAD. These files are checked to see if the
+power supply is plugged in and if the battery is either at 100% or below 20%.
+If the battery is charged and AC power is present, the highlight color will be
+green. If the battery is above 20% and the AC power supply is offline, then the
+highlight color will be blue. If the battery is below 20% and no power supply is
+present, the highlight color will turn red. If the power supply is plugged in
+and the battery is not at 100%, the highlight color will be yellow.
+.SH OPTIONS
+.TP
+.B \-v
+prints version information to standard output, then exits.
+.SH USAGE
+.SS Status bar
+.TP
+.B X root window name
+is read and displayed in the status text area. It can be set with the
+.BR xsetroot (1)
+command.
+.TP
+.B Button1
+click on a tag label to display all windows with that tag, click on the layout
+label toggles between tiled and floating layout.
+.TP
+.B Button3
+click on a tag label adds/removes all windows with that tag to/from the view.
+.TP
+.B Mod1\-Button1
+click on a tag label applies that tag to the focused window.
+.TP
+.B Mod1\-Button3
+click on a tag label adds/removes that tag to/from the focused window.
+.SS Keyboard commands
+.TP
+.B Mod1\-Return
+Start
+.BR st(1).
+.TP
+.B Mod1\-d
+Spawn
+.BR dmenu(1)
+for launching other programs.
+.TP
+.B Mod1\-,
+Focus previous screen, if any.
+.TP
+.B Mod1\-.
+Focus next screen, if any.
+.TP
+.B Mod1\-Shift\-,
+Send focused window to previous screen, if any.
+.TP
+.B Mod1\-Shift\-.
+Send focused window to next screen, if any.
+.TP
+.B Mod1\-b
+Toggles bar on and off.
+.TP
+.B Mod1\-t
+Sets tiled layout.
+.TP
+.B Mod1\-f
+Sets floating layout.
+.TP
+.B Mod1\-m
+Sets monocle layout.
+.TP
+.B Mod1\-space
+Toggles between current and previous layout.
+.TP
+.B Mod1\-j
+Focus next window.
+.TP
+.B Mod1\-k
+Focus previous window.
+.TP
+.B Mod1\-i
+Increase number of windows in master area.
+.TP
+.B Mod1\-o
+Decrease number of windows in master area.
+.TP
+.B Mod1\-l
+Increase master area size.
+.TP
+.B Mod1\-h
+Decrease master area size.
+.TP
+.B Mod1\-Shift\-Return
+Zooms/cycles focused window to/from master area (tiled/grid layouts only).
+.TP
+.B Mod1\-Shift\-q
+Close focused window.
+.TP
+.B Mod1\-Shift\-space
+Toggle focused window between tiled and floating state.
+.TP
+.B Mod1\-Tab
+Toggles to the previously selected tags.
+.TP
+.B Mod1\-Shift\-[1..n,-,+,backspace]
+Apply nth tag to focused window.
+.TP
+.B Mod1\-Shift\-a
+Apply all tags to focused window.
+.TP
+.B Mod1\-Control\-Shift\-[1..n,-,+,Backspace]
+Add/remove nth tag to/from focused window.
+.TP
+.B Mod1\-[1..n,-,+,Backspace]
+View all windows with nth tag.
+.TP
+.B Mod1\-a
+View all windows with any tag.
+.TP
+.B Mod1\-Control\-[1..n,-,+,Backspace]
+Add/remove all windows with nth tag to/from the view.
+.TP
+.B Mod1\-Shift\-e
+Quit dwm.
+.SS Mouse commands
+.TP
+.B Mod1\-Button1
+Move focused window while dragging. Tiled windows will be toggled to the floating state.
+.TP
+.B Mod1\-Button2
+Toggles focused window between floating and tiled state.
+.TP
+.B Mod1\-Button3
+Resize focused window while dragging. Tiled windows will be toggled to the floating state.
+.SH CUSTOMIZATION
+dwm is customized by creating a custom config.h and (re)compiling the source
+code. This keeps it fast, secure and simple.
+.SH SEE ALSO
+.BR dmenu (1),
+.BR st (1)
+.SH ACKNOWLEDGEMENTS
+This WM is based on Suckless' DWM, originally by Anselm Garbe, et. al.
+http://dwm.suckless.org/
+.SH ISSUES
+Java applications which use the XToolkit/XAWT backend may draw grey windows
+only. The XToolkit/XAWT backend breaks ICCCM-compliance in recent JDK 1.5 and early
+JDK 1.6 versions, because it assumes a reparenting window manager. Possible workarounds
+are using JDK 1.4 (which doesn't contain the XToolkit/XAWT backend) or setting the
+environment variable
+.BR AWT_TOOLKIT=MToolkit
+(to use the older Motif backend instead) or running
+.B xprop -root -f _NET_WM_NAME 32a -set _NET_WM_NAME LG3D
+or
+.B wmname LG3D
+(to pretend that a non-reparenting window manager is running that the
+XToolkit/XAWT backend can recognize) or when using OpenJDK setting the environment variable
+.BR _JAVA_AWT_WM_NONREPARENTING=1 .
+.SH BUGS
+Send all bug reports with a patch to jimmydean886@hotmail.com. If you find the
+same bug in DWM, please send a patch against dwm to hackers@suckless.org as well
+since their software is the basis of this WM, and without it this WM would not
+exist!
