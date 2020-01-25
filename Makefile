@@ -22,7 +22,7 @@ ${OBJ}: config.h config.mk
 config.h:
 	cp config.def.h $@
 
-dwm: ${OBJ}
+dwm: ${OBJ} centeredmaster.c gaplessgrid.c
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:

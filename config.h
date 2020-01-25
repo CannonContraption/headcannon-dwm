@@ -175,6 +175,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_BackSpace,              10)
 	/* THE HOLY QUIT KEY-----------------------------------------------*/
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
+    { MODKEY|ShiftMask,             XK_r,      restart,        {0} },
 };
 
 /* button definitions */

@@ -192,6 +192,7 @@ static void resize(Client *c, int x, int y, int w, int h, int interact);
 static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
+static void restart(const Arg *arg);
 static void run(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
@@ -239,6 +240,7 @@ static void checkBattery();
 /* variables */
 static const char broken[] = "broken";
 static char stext[256];
+static int restartp = 0;
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh, blw = 0;      /* bar geometry */
@@ -1403,6 +1405,13 @@ restack(Monitor *m)
 }
 
 void
+restart(const Arg * arg)
+{
+    restartp=1;
+    quit(arg);
+}
+
+void
 run(void)
 {
 	XEvent ev;
@@ -2236,5 +2245,9 @@ main(int argc, char *argv[])
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
+    if (restartp)
+    {
+        return 33;
+    }
 	return EXIT_SUCCESS;
 }
