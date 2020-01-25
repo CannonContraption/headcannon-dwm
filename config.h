@@ -88,8 +88,8 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "MM=",      tile },       /* Stack/master tiling (default) */
 	{ "M==",      gaplessgrid },/* Grid, no gaps */
+	{ "MM=",      tile },       /* Stack/master tiling (default) */
 	{ "???",      NULL },       /* no layout function means floating behavior */
 	{ "[M]",      monocle },    /* One window at a time */
 	{ "=M=",      centeredmaster}, /* Like tiled, but master centered */
@@ -150,11 +150,11 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_z,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
