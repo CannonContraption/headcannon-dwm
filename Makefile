@@ -22,7 +22,7 @@ ${OBJ}: config.h config.mk
 config.h:
 	cp config.def.h $@
 
-headcannon-dwm: ${OBJ} centeredmaster.c gaplessgrid.c trigapless.c
+headcannon-dwm: ${OBJ} hcdwm.h layouts.c
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
