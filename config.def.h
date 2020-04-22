@@ -85,10 +85,6 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
-#include "gaplessgrid.c"
-#include "trigapless.c"
-#include "centeredmaster.c"
-
 static const Layout layouts[] =
   {
    /* symbol     arrange function */
@@ -97,7 +93,7 @@ static const Layout layouts[] =
    { "???",      NULL },       /* no layout function means floating behavior */
    { "[M]",      monocle },    /* One window at a time */
    { "=M=",      centeredmaster}, /* Like tiled, but master centered */
-   { "===",      trigaplessgrid }, /* Tri-column grid */
+   { "===",      tricolumn },  /* Tri-column grid */
   };
 
 /* key definitions */
@@ -107,16 +103,6 @@ static const Layout layouts[] =
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-#define XF86AudioRaiseVolume  0x1008ff13
-#define XF86AudioLowerVolume  0x1008ff11
-#define XF86AudioMute         0x1008ff12
-#define XF86AudioPlay         0x1008ff14
-#define XF86AudioStop         0x1008ff15
-#define XF86AudioPrev         0x1008ff16
-#define XF86AudioNext         0x1008ff17
-#define XF86MonBrightnessUp   0x1008ff02
-#define XF86MonBrightnessDown 0x1008ff03
-#define KEYBOARD_Pause        0xff13
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -126,23 +112,11 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_grey1, "-nf", col_grey3, "-sb", col_green, "-sf", col_grey1, NULL };
 static const char *termcmd[] = { "st", NULL };
 
-/* WM tools spawn arrays */
-static const char *lockscrn[] = { "slock", NULL };
-static const char *suspndlk[] = { "slock", "systemctl", "suspend", NULL };
-
-static const char *scrsht[]   = { "scrot", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
-static const char *scrshtwn[] = { "scrot", "-u", "'%Y-%m-%d_screenshot.png'", "-e", "'mv $f ~/Pictures/Screenshots'", NULL };
-
 static Key keys[] =
   {
    /* modifier                     key        function        argument */
    /* SPAWNS SECTION---------------------------------------------------*/
    { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-   /* WM TOOL SECTION--------------------------------------------------*/
-   { 0,                       KEYBOARD_Pause, spawn,          {.v = lockscrn} },
-   { MODKEY,                  KEYBOARD_Pause, spawn,          {.v = suspndlk} },
-   { 0,                            XK_Print,  spawn,          {.v = scrsht} },
-   { MODKEY,                       XK_Print,  spawn,          {.v = scrshtwn} },
    /* WM ACTION SECTION------------------------------------------------*/
    { MODKEY,                       XK_q,      switchscheme,   {0} },
    { MODKEY,                       XK_b,      togglebar,      {0} },
