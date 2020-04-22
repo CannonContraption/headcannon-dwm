@@ -65,6 +65,9 @@ void switchscheme()
 /* Battery settings. Sets up battery monitoring things. */
 #define LOW_BATTERY_LEVEL 20
 
+/* What do we call a window with no name? */
+static const char broken[] = "This window has no name.";
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "+", "←" };
 

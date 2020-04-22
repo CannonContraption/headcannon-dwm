@@ -221,8 +221,7 @@ static void zoom(const Arg *arg);
 
 static void checkBattery();
 
-/* variables */
-static const char broken[] = "broken";
+/* variables */;
 static char stext[256];
 static int restartp = 0;
 static int screen;
