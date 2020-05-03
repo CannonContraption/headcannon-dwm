@@ -88,8 +88,8 @@ static const float mfact     = 0.60; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
-int hgap = 5;
-int vgap = 5;
+int hgap = 0;
+int vgap = 0;
 
 static const Layout layouts[] =
   {
