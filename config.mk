@@ -1,5 +1,5 @@
 # dwm version
-VERSION = 7.0
+VERSION = 7.1
 
 # Customize below to fit your system
 
