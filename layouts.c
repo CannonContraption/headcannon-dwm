@@ -35,27 +35,48 @@ void centeredmaster(
   oty = 0;
   ety = 0;
   for (i = 0, c = nexttiled(monitor->clients); c; c = nexttiled(c->next), i++)
-    if (i < monitor->nmaster) {
-      /* nmaster clients are stacked vertically, in the center
-       * of the screen */
-      h = (monitor->wh - my) / (MIN(n, monitor->nmaster) - i);
-      resize(c, monitor->wx + mx, monitor->wy + my, mw - (2*c->bw),
-             h - (2*c->bw), 0);
-      my += HEIGHT(c);
-    } else {
-      /* stack clients are stacked vertically */
-      if ((i - monitor->nmaster) % 2 ) {
-        h = (monitor->wh - ety) / ( (1 + n - i) / 2);
-        resize(c, monitor->wx, monitor->wy + ety, tw - (2*c->bw),
-               h - (2*c->bw), 0);
-        ety += HEIGHT(c);
-      } else {
-        h = (monitor->wh - oty) / ((1 + n - i) / 2);
-        resize(c, monitor->wx + mx + mw, monitor->wy + oty,
-               tw - (2*c->bw), h - (2*c->bw), 0);
-        oty += HEIGHT(c);
+    if (i < monitor->nmaster)
+      {
+        /* nmaster clients are stacked vertically, in the center
+         * of the screen */
+        h = (monitor->wh - my) / (MIN(n, monitor->nmaster) - i);
+        resize(
+            c,
+            (monitor->wx + mx) + hgap,
+            (monitor->wy + my) + vgap,
+            (mw - (2*c->bw)) - (hgap * 2),
+            (h - (2*c->bw)) - (vgap * 2),
+            0);
+        my += HEIGHT(c) + (vgap * 2);
       }
-    }
+    else
+      {
+        /* stack clients are stacked vertically */
+        if ((i - monitor->nmaster) % 2 )
+          {
+            h = (monitor->wh - ety) / ( (1 + n - i) / 2);
+            resize(
+                c,
+                (monitor->wx) + hgap,
+                (monitor->wy + ety) + vgap,
+                (tw - (2*c->bw)) - (hgap * 2),
+                (h - (2*c->bw)) - (vgap * 2),
+                0);
+            ety += HEIGHT(c) + (vgap * 2);
+          }
+        else
+          {
+            h = (monitor->wh - oty) / ((1 + n - i) / 2);
+            resize(
+                c,
+                (monitor->wx + mx + mw) + hgap,
+                (monitor->wy + oty) + vgap,
+                (tw - (2*c->bw)) - (hgap * 2),
+                (h - (2*c->bw)) - (vgap * 2),
+                0);
+            oty += HEIGHT(c) + (vgap * 2);
+          }
+      }
 }
 
 /*
@@ -89,7 +110,7 @@ void grid(
     ch = rows ? monitor->wh / rows : monitor->wh;
     cx = monitor->wx + cn*cw;
     cy = monitor->wy + rn*ch;
-    resize(c, cx, cy, cw - 2 * c->bw, ch - 2 * c->bw, False);
+    resize(c, cx + hgap, cy + vgap, (cw - 2 * c->bw) - (hgap * 2), (ch - 2 * c->bw) - (vgap * 2), False);
     rn++;
     if(rn >= rows) {
       rn = 0;
@@ -131,21 +152,44 @@ void tile(
 
   for (n = 0, c = nexttiled(monitor->clients); c; c = nexttiled(c->next), n++);
   if (n == 0)
-    return;
+    {
+      return;
+    }
 
   if (n > monitor->nmaster)
-    mw = monitor->nmaster ? monitor->ww * monitor->mfact : 0;
+    {
+      mw = monitor->nmaster ? monitor->ww * monitor->mfact : 0;
+    }
   else
-    mw = monitor->ww;
+    {
+      mw = monitor->ww;
+    }
   for (i = my = ty = 0, c = nexttiled(monitor->clients); c; c = nexttiled(c->next), i++)
-    if (i < monitor->nmaster) {
-      h = (monitor->wh - my) / (MIN(n, monitor->nmaster) - i);
-      resize(c, monitor->wx, monitor->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
-      my += HEIGHT(c);
-    } else {
-      h = (monitor->wh - ty) / (n - i);
-      resize(c, monitor->wx + mw, monitor->wy + ty, monitor->ww - mw - (2*c->bw), h - (2*c->bw), 0);
-      ty += HEIGHT(c);
+    {
+      if (i < monitor->nmaster)
+        {
+          h = (monitor->wh - my) / (MIN(n, monitor->nmaster) - i);
+          resize(
+              c,
+              monitor->wx + hgap,
+              monitor->wy + my + vgap,
+              (mw - (2*c->bw)) - (hgap * 2),
+              (h - (2*c->bw)) - (vgap * 2),
+              0);
+          my += HEIGHT(c) + (vgap * 2);
+        }
+      else
+        {
+          h = (monitor->wh - ty) / (n - i);
+          resize(
+              c,
+              monitor->wx + mw + hgap,
+              monitor->wy + ty + vgap,
+              monitor->ww - mw - (2*c->bw) - (hgap * 2),
+              h - (2*c->bw) - (hgap * 2),
+              0);
+          ty += HEIGHT(c) + (vgap * 2);
+        }
     }
 }
 
@@ -182,7 +226,13 @@ void tricolumn(
     ch = rows ? monitor->wh / rows : monitor->wh;
     cx = monitor->wx + cn*cw;
     cy = monitor->wy + rn*ch;
-    resize(c, cx, cy, cw - 2 * c->bw, ch - 2 * c->bw, False);
+    resize(
+        c,
+        cx + hgap,
+        cy + vgap,
+        (cw - 2 * c->bw) - (hgap * 2),
+        (ch - 2 * c->bw) - (vgap * 2),
+        False);
     rn++;
     if(rn >= rows) {
       rn = 0;

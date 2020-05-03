@@ -259,6 +259,9 @@ static int lowbat = 0;
 static int charging = 2;
 static int batcheckcount = 0;
 
+extern int hgap;
+extern int vgap;
+
 /* Layouts, etc. */
 #include "layouts.c"
 
