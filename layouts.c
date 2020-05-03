@@ -61,7 +61,7 @@ void centeredmaster(
 /*
   gaplessgrid - Grid layout
  */
-void gaplessgrid(
+void grid(
     Monitor * monitor)
 {
   unsigned int n, cols, rows, cn, rn, i, cx, cy, cw, ch;
