@@ -71,6 +71,7 @@ static       char col_greenleuven[]       = "#008000";
 static       char col_redleuven[]         = "#ff0b0b";
 static       char col_yellowleuven[]      = "#ff8c00";
 static       char col_blueleuven[]        = "#335ea8";
+
 static colortheme color_leuven =
   {
    .schemenorm = { col_grey4leuven, col_grey1leuven, col_grey2leuven },
