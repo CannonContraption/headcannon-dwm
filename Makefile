@@ -22,7 +22,7 @@ ${OBJ}: config.h config.mk
 config.h:
 	cp config.def.h $@
 
-headcannon-dwm: ${OBJ} hcdwm.h layouts.c
+headcannon-dwm: ${OBJ} hcdwm.h layouts.c colors.h
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:

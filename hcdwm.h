@@ -81,6 +81,15 @@ struct Client {
 	Window win;
 };
 
+typedef struct
+{
+  char * schemenorm[3];
+  char * schemesel [3];
+  char * schemebat [3];
+  char * schemechr [3];
+  char * schemefull[3];
+} colortheme;
+
 typedef struct {
 	unsigned int mod;
 	KeySym keysym;
@@ -185,6 +194,7 @@ static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
+void setscheme();
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
