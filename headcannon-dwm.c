@@ -1403,9 +1403,38 @@ void setmfact(
   arrange(selmon);
 }
 
+void setscheme()
+{
+  if (scheme)
+    {
+      free(scheme);
+      scheme = NULL;
+    }
+  scheme = ecalloc(5, sizeof(Clr *));
+  scheme [0] = drw_scm_create(
+      drw,
+      colors[csch]->schemenorm,
+      3);
+  scheme [1] = drw_scm_create(
+      drw,
+      colors[csch]->schemesel,
+      3);
+  scheme [2] = drw_scm_create(
+      drw,
+      colors[csch]->schemebat,
+      3);
+  scheme [3] = drw_scm_create(
+      drw,
+      colors[csch]->schemechr,
+      3);
+  scheme [4] = drw_scm_create(
+      drw,
+      colors[csch]->schemefull,
+      3);
+}
+
 void setup()
 {
-  int i;
   XSetWindowAttributes wa;
   Atom utf8string;
 
@@ -1443,9 +1472,7 @@ void setup()
   cursor[CurResize] = drw_cur_create(drw, XC_sizing);
   cursor[CurMove] = drw_cur_create(drw, XC_fleur);
   /* init appearance */
-  scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
-  for (i = 0; i < LENGTH(colors); i++)
-    scheme[i] = drw_scm_create(drw, colors[i], 3);
+  setscheme();
   /* init bars */
   updatebars();
   updatestatus();
@@ -1531,6 +1558,16 @@ void spawn(
       perror(" failed");
       exit(EXIT_SUCCESS);
     }
+}
+
+void switchscheme()
+{
+  csch ++;
+  if (csch >= no_color_themes)
+    {
+      csch = 0;
+    }
+  setscheme();
 }
 
 void tag(

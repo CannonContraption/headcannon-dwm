@@ -7,60 +7,6 @@ static const int showbar                  = 1;        /* 0 means no bar */
 static const int topbar                   = 1;        /* 0 means bottom bar */
 static const char *fonts[]                = { "Fira Code:size=9" };
 static const char dmenufont[]             = "Fira Code:size=9";
-static       char col_grey1[]             = "#222222";
-static       char col_grey2[]             = "#444444";
-static       char col_grey3[]             = "#bbbbbb";
-static       char col_grey4[]             = "#eeeeee";
-static       char col_green[]             = "#95E454";
-static       char col_red[]               = "#E5786D";
-static       char col_yellow[]            = "#F0DFAF";
-static       char col_blue[]              = "#9AB8D7";
-static       char col_grey1leuven[]       = "#d3d3d3";
-static       char col_grey2leuven[]       = "#bebebe";
-static       char col_grey3leuven[]       = "#020202";
-static       char col_grey4leuven[]       = "#595959";
-static       char col_greenleuven[]       = "#008000";
-static       char col_redleuven[]         = "#ff0b0b";
-static       char col_yellowleuven[]      = "#ff8c00";
-static       char col_blueleuven[]        = "#335ea8";
-static       char *leuvencolors[][3]=
-  {
-   /*               fg         bg         border   */
-   [SchemeNorm] = { col_grey4leuven, col_grey1leuven, col_grey2leuven },
-   [SchemeSel]  = { col_grey1leuven, col_blueleuven,  col_blueleuven  },
-   [SchemeBat]  = { col_grey1leuven, col_redleuven,   col_redleuven   },
-   [SchemeChr]  = { col_grey3leuven, col_yellowleuven,col_yellowleuven},
-   [SchemeFull] = { col_grey1leuven, col_greenleuven, col_greenleuven },
-  };                      
-static       char *colors[][3]      =
-  { 
-   /*               fg         bg         border   */
-   [SchemeNorm] = { col_grey3, col_grey1, col_grey2 },
-   [SchemeSel]  = { col_grey1, col_blue,  col_blue  },
-   [SchemeBat]  = { col_grey1, col_red,   col_red   },
-   [SchemeChr]  = { col_grey1, col_yellow,col_yellow},
-   [SchemeFull] = { col_grey1, col_green, col_green },
-  };
-int csch = 0;
-
-void switchscheme()
-{
-  int i;
-  free(scheme);
-  scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
-  if(csch == 0)
-    {
-      for (i = 0; i < LENGTH(leuvencolors); i++)
-        scheme[i] = drw_scm_create(drw, leuvencolors[i], 3);
-      csch = 1;
-    }
-  else
-    {
-      for (i = 0; i < LENGTH(colors); i++)
-        scheme[i] = drw_scm_create(drw, colors[i], 3);
-      csch = 0;
-    }
-}
 
 /* Battery settings. Sets up battery monitoring things. */
 #define LOW_BATTERY_LEVEL 20

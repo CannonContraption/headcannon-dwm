@@ -190,6 +190,7 @@ static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
 static void spawn(const Arg *arg);
+void switchscheme();
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
@@ -221,7 +222,7 @@ static void zoom(const Arg *arg);
 
 static void checkBattery();
 
-/* variables */;
+/* variables */
 static char stext[256];
 static int restartp = 0;
 static int screen;
@@ -261,6 +262,9 @@ static int batcheckcount = 0;
 
 /* Layouts, etc. */
 #include "layouts.c"
+
+/* Color themes */
+#include "colors.h"
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
