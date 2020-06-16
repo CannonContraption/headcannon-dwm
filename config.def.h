@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx        = 0;        /* border pixel of windows */
+static const unsigned int borderpx        = 2;        /* border pixel of windows */
 static const unsigned int snap            = 32;       /* snap pixel */
 static const int showbar                  = 1;        /* 0 means no bar */
 static const int topbar                   = 1;        /* 0 means bottom bar */
@@ -40,8 +40,8 @@ int vgap = 0;
 static const Layout layouts[] =
   {
    /* symbol     arrange function */
-   { "M==",      grid },       /* Grid */
    { "MM=",      tile },       /* Stack/master tiling (default) */
+   { "M==",      grid },       /* Grid */
    { "???",      NULL },       /* no layout function means floating behavior */
    { "[M]",      monocle },    /* One window at a time */
    { "=M=",      centeredmaster}, /* Like tiled, but master centered */
@@ -78,14 +78,15 @@ static Key keys[] =
    { MODKEY,                       XK_o,      incnmaster,     {.i = -1 } },
    { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
    { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-   { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
+   { MODKEY,                       XK_Return, zoom,           {0} },
+   { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
    { MODKEY,                       XK_Tab,    view,           {0} },
    { MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
-   { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
+   { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
    { MODKEY,                       XK_z,      setlayout,      {.v = &layouts[5]} },
    { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
    { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
-   { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[0]} },
+   { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[1]} },
    { MODKEY,                       XK_y,      setlayout,      {.v = &layouts[4]} },
    { MODKEY,                       XK_space,  setlayout,      {0} },
    { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -122,6 +123,7 @@ static Button buttons[] =
    { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
    { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
    { ClkWinTitle,          0,              Button2,        zoom,           {0} },
+   { ClkWinTitle,          0,              Button3,        killclient,     {0} },
    { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
    { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
    { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
