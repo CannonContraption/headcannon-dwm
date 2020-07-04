@@ -25,6 +25,7 @@
 
 #include "drw.h"
 #include "util.h"
+#include "localplatform.h"
 
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
@@ -230,7 +231,9 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 
+#ifdef LAPTOPMODE
 static void checkBattery();
+#endif
 
 /* variables */
 static char stext[256];
@@ -266,9 +269,11 @@ static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
 
+#ifdef LAPTOPMODE
 static int lowbat = 0;
 static int charging = 2;
 static int batcheckcount = 0;
+#endif
 
 extern int hgap;
 extern int vgap;

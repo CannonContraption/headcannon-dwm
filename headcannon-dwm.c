@@ -507,6 +507,7 @@ void drawbar(
   for (i = 0; i < LENGTH(tags); i++)
     {
       w = TEXTW(tags[i]);
+#ifdef LAPTOPMODE
       if(charging == 1)
         drw_setscheme(drw, scheme[m->tagset[m->seltags] &1 << i ? SchemeChr : SchemeNorm]);
       else if(charging > 1)
@@ -515,6 +516,9 @@ void drawbar(
         drw_setscheme(drw, scheme[m->tagset[m->seltags] &1 << i ? SchemeBat : SchemeNorm]);
       else
         drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+#else
+      drw_setscheme(drw, scheme[m->tagset[m->seltags] &1 << i ? SchemeFull : SchemeNorm]);
+#endif
       drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
       if (occ & 1 << i)
         drw_rect(drw, x + boxw, -1, w - ( 2 * boxw ), boxw-1,
@@ -530,6 +534,7 @@ void drawbar(
     {
       if (m->sel)
         {
+#ifdef LAPTOPMODE
           if(charging == 1)
             {
               drw_setscheme(drw, scheme[m == selmon ? SchemeChr : SchemeNorm]);
@@ -542,6 +547,9 @@ void drawbar(
             drw_setscheme(drw, scheme[m == selmon ? SchemeBat : SchemeNorm]);
           else
             drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
+#else
+          drw_setscheme(drw, scheme[m == selmon ? SchemeFull : SchemeNorm]);
+#endif
           drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
           if (m->sel->isfloating)
             drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
@@ -610,6 +618,7 @@ void focus(
       detachstack(c);
       attachstack(c);
       grabbuttons(c, 1);
+#ifdef LAPTOPMODE
       if(charging == 1)
         {
           XSetWindowBorder(dpy, c->win, scheme[SchemeChr][ColBorder].pixel);
@@ -622,6 +631,9 @@ void focus(
         XSetWindowBorder(dpy, c->win, scheme[SchemeBat][ColBorder].pixel);
       else
         XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
+#else
+      XSetWindowBorder(dpy, c->win, scheme[SchemeFull][ColBorder].pixel);
+#endif
       setfocus(c);
     }
   else
@@ -1912,6 +1924,7 @@ void updatestatus()
   if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
     strcpy(stext, "Headcannon-DWM; Version"VERSION);
   drawbar(selmon);
+#ifdef LAPTOPMODE
   if(batcheckcount % 6 == 0)
     {
       checkBattery();
@@ -1919,6 +1932,7 @@ void updatestatus()
       batcheckcount = 0;
     }
   batcheckcount ++;
+#endif
 }
 
 void updatetitle(
@@ -2059,20 +2073,21 @@ void zoom(
   pop(c);
 }
 
+#ifdef LAPTOPMODE
 void checkBattery()
 {
   int batterypercent = 100;
   FILE * batstat = NULL;
   batstat = fopen(
-      "/sys/class/power_supply/BAT0/capacity",
+      "/sys/class/power_supply/" BATTERYID "/capacity",
       "r");
-  if(batstat == NULL)
-    batstat = fopen(
-        "/sys/class/power_supply/BAT1/capacity",
-        "r");
   // In this case we're probably not on a laptop, therefore there's no battery
+  // We shouldn't get here, but whatever.
   if(batstat == NULL)
-    return;
+    {
+      puts("Battery misdetected. Rebuild?");
+      return;
+    }
   char buffer[20];
   fgets(buffer, 19, batstat);
   batterypercent = atoi(buffer);
@@ -2086,14 +2101,14 @@ void checkBattery()
   fclose(batstat);
   batstat = NULL;
   batstat = fopen(
-      "/sys/class/power_supply/AC/online",
+      "/sys/class/power_supply/" ACADAPTERID "/online",
       "r");
   if(batstat == NULL)
-    batstat = fopen(
-        "/sys/class/power_supply/ACAD/online",
-        "r");
-  if(batstat == NULL)
-    return;
+    {
+      puts(
+          "AC Adapter misdetected. Rebuild?");
+      return;
+    }
   strcpy(
       buffer,
       "");
@@ -2109,6 +2124,7 @@ void checkBattery()
   fclose(batstat);
   batstat = NULL;
 }
+#endif
 
 int main(
     int    argc,

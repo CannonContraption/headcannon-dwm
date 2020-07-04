@@ -17,16 +17,19 @@ options:
 .c.o:
 	${CC} -c ${CFLAGS} $<
 
-${OBJ}: config.h config.mk
+${OBJ}: config.h config.mk localplatform.h
 
 config.h:
 	cp config.def.h $@
+
+localplatform.h:
+	./makeplatformh.sh
 
 headcannon-dwm: ${OBJ} hcdwm.h layouts.c colors.h
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	rm -f headcannon-dwm ${OBJ} headcannon-dwm-${VERSION}.tar.gz
+	rm -f headcannon-dwm ${OBJ} headcannon-dwm-${VERSION}.tar.gz localplatform.h
 
 dist: clean
 	mkdir -p headcannon-dwm-${VERSION}
