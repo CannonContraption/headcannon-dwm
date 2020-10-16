@@ -1086,8 +1086,7 @@ void propertynotify(
       if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName])
         {
           updatetitle(c);
-          if (c == c->mon->sel)
-            drawbar(c->mon);
+          drawbars();
         }
       if (ev->atom == netatom[NetWMWindowType])
         updatewindowtype(c);
@@ -1920,7 +1919,7 @@ void updatestatus()
 {
   if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
     strcpy(stext, "Headcannon-DWM; Version"VERSION);
-  drawbar(selmon);
+  drawbars();
 #ifdef LAPTOPMODE
   if(batcheckcount % 6 == 0)
     {
