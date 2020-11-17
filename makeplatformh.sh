@@ -29,6 +29,20 @@ mkdesktopconfig()
     echo '#define ACADAPTERID "null"' >> localplatform.h
 }
 
+# Terminal detection
+#
+# Detects alacritty, else falls back to st
+detectterm()
+{
+    which alacritty && {
+        echo '#define DEFAULTTERM "alacritty"' >> localplatform.h
+        return 0
+    }
+    echo '#define DEFAULTTERM "st"' >> localplatform.h
+}
+
+detectterm
+
 # Apply the battery settings
 if [ -n "$battery" ]; then
     mklaptopconfig
