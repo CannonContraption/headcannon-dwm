@@ -5,7 +5,7 @@ VERSION = 7.2
 
 # paths
 PREFIX = /usr/local
-LPREFIX = ${HOME}/.local/share
+LPREFIX = ${HOME}/.local
 MANPREFIX = ${PREFIX}/share/man
 LMANPREFIX = ${LPREFIX}/share/man
 
