@@ -49,8 +49,20 @@ install: all
 	sed "s/VERSION/${VERSION}/g" < headcannon-dwm.1 > ${DESTDIR}${MANPREFIX}/man1/headcannon-dwm.1
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/headcannon-dwm.1
 
+localinstall: all
+	mkdir -p ${DESTDIR}${LPREFIX}/bin
+	cp -f headcannon-dwm ${DESTDIR}${LPREFIX}/bin
+	chmod 755 ${DESTDIR}${LPREFIX}/bin/headcannon-dwm
+	mkdir -p ${DESTDIR}${LMANPREFIX}/man1
+	sed "s/VERSION/${VERSION}/g" < headcannon-dwm.1 > ${DESTDIR}${LMANPREFIX}/man1/headcannon-dwm.1
+	chmod 644 ${DESTDIR}${LMANPREFIX}/man1/headcannon-dwm.1
+
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/headcannon-dwm\
 		${DESTDIR}${MANPREFIX}/man1/headcannon-dwm.1
+
+localuninstall:
+	rm -f ${DESTDIR}${LPREFIX}/bin/headcannon-dwm\
+		${DESTDIR}${LMANPREFIX}/man1/headcannon-dwm.1
 
 .PHONY: all options clean dist install uninstall
