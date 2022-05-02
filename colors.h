@@ -35,7 +35,7 @@
  * The Default Headcannon-DWM theme
  * credit to the Emacs team
  */
-static       char col_grey1[]             = "#222222";
+static       char col_grey1[]             = "#242424";
 static       char col_grey2[]             = "#444444";
 static       char col_grey3[]             = "#bbbbbb";
 /* static       char col_grey4[]             = "#eeeeee"; Unused. */
@@ -81,17 +81,43 @@ static colortheme color_leuven =
    .schemefull = { col_grey1leuven, col_greenleuven, col_greenleuven },
   };
 
+/*
+ _____________  _     __
+/_  __/ __/ _ \(_)__ / /
+ / / _\ \/ // / (_-</ _ \
+/_/ /___/____/_/___/_//_/
+TSDH light -ish color theme
+ */
+static       char col_grey1tsdish[]       = "#fafafa";
+static       char col_grey2tsdish[]       = "#bebebe";
+static       char col_grey3tsdish[]       = "#020202";
+static       char col_grey4tsdish[]       = "#383a42";
+static       char col_greentsdish[]       = "#50a14f";
+static       char col_redtsdish[]         = "#e44649";
+static       char col_yellowtsdish[]      = "#ffec8b";
+static       char col_bluetsdish[]        = "#94BFF3";
+
+static colortheme color_tsdish =
+  {
+   /* scheme       foregrnd,  backgrnd,  border */
+   .schemenorm = { col_grey4tsdish, col_grey1tsdish, col_grey2tsdish },
+   .schemesel  = { col_grey4tsdish, col_bluetsdish,  col_bluetsdish  },
+   .schemebat  = { col_grey1tsdish, col_redtsdish,   col_redtsdish   },
+   .schemechr  = { col_grey3tsdish, col_yellowtsdish,col_yellowtsdish},
+   .schemefull = { col_grey1tsdish, col_greentsdish, col_greentsdish },
+  };
 
 /* ====================== Color settings section ============================ */
 /* Default color scheme */
 int csch = 0;
 
 /* Number of configured color schemes */
-static int no_color_themes = 2;
+static int no_color_themes = 3;
 
 /* List of finished configurations */
 static colortheme * colors[3] =
   {
    &color_wombat,
    &color_leuven,
+   &color_tsdish,
   };
