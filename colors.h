@@ -117,7 +117,7 @@ static int no_color_themes = 3;
 /* List of finished configurations */
 static colortheme * colors[3] =
   {
+   &color_tsdish,
    &color_wombat,
    &color_leuven,
-   &color_tsdish,
   };
