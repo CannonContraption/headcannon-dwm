@@ -85,38 +85,81 @@ void centeredmaster(
 void grid(
     Monitor * monitor)
 {
-  unsigned int n, cols, rows, cn, rn, i, cx, cy, cw, ch;
-  Client *c;
+  unsigned int number_clients;
+  unsigned int rows;
+  unsigned int cols;
+  unsigned int colnum;
+  unsigned int rownum;
+  unsigned int i;
+  unsigned int client_x;
+  unsigned int client_y;
+  unsigned int client_width;
+  unsigned int client_height;
+  Client *client;
 
-  for(n = 0, c = nexttiled(monitor->clients); c; c = nexttiled(c->next))
-    n++;
-  if(n == 0)
-    return;
+  for(
+      number_clients = 0,
+        client = nexttiled(
+            monitor -> clients);
+      client;
+      client = nexttiled(
+          client -> next))
+    {
+      number_clients++;
+    }
+
+  if(number_clients == 0)
+    {
+      return;
+    }
 
   /* grid dimensions */
-  for(cols = 0; cols <= n/2; cols++)
-    if(cols*cols >= n)
-      break;
+  for(
+      cols = 0;
+      cols <= number_clients / 2;
+      cols++)
+    {
+      if(cols * cols >= number_clients)
+        {
+          break;
+        }
+    }
 
-  rows = n/cols;
+  rows = number_clients / cols;
 
   /* window geometries */
-  cw = cols ? monitor->ww / cols : monitor->ww;
-  cn = 0; /* current column number */
-  rn = 0; /* current row number */
-  for(i = 0, c = nexttiled(monitor->clients); c; i++, c = nexttiled(c->next)) {
-    if(i/rows + 1 > cols - n%cols)
-      rows = n/cols + 1;
-    ch = rows ? monitor->wh / rows : monitor->wh;
-    cx = monitor->wx + cn*cw;
-    cy = monitor->wy + rn*ch;
-    resize(c, cx + hgap, cy + vgap, (cw - 2 * c->bw) - (hgap * 2), (ch - 2 * c->bw) - (vgap * 2), False);
-    rn++;
-    if(rn >= rows) {
-      rn = 0;
-      cn++;
+  client_width = cols ? monitor -> ww / cols : monitor -> ww;
+  colnum = 0;
+  rownum = 0;
+  for(
+      i = 0,
+        client = nexttiled(monitor->clients);
+      client;
+      i++,
+        client = nexttiled(
+            client -> next))
+    {
+      if (i/rows + 1 > cols - number_clients % cols)
+        {
+          rows = number_clients/cols + 1;
+        }
+      client_height = rows ? monitor->wh / rows : monitor->wh;
+      client_x = monitor->wx + colnum*client_width;
+      client_y = monitor->wy + rownum*client_height;
+      resize(
+          client,
+          client_x + hgap,
+          client_y + vgap,
+          (client_width - 2 * client -> bw) - (hgap * 2),
+          (client_height - 2 * client->bw) - (vgap * 2),
+          False);
+      rownum ++;
+      if(rownum >= rows)
+        {
+          rownum = 0;
+          colnum++;
+        }
     }
-  }
 }
 
 /*
