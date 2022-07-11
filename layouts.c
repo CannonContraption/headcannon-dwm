@@ -6,11 +6,19 @@
 void centeredmaster(
     Monitor * monitor)
 {
-  unsigned int i, n, h, mw, mx, my, oty, ety, tw;
-  Client *c;
+  unsigned int i;
+  unsigned int n;
+  unsigned int h;
+  unsigned int mw;
+  unsigned int mx;
+  unsigned int my;
+  unsigned int oty;
+  unsigned int ety;
+  unsigned int tw;
+  Client * client;
 
   /* count number of clients in the selected monitor */
-  for (n = 0, c = nexttiled(monitor->clients); c; c = nexttiled(c->next), n++);
+  for (n = 0, client = nexttiled(monitor->clients); client; client = nexttiled(client->next), n++);
   if(n == 0)
     return;
 
@@ -34,20 +42,26 @@ void centeredmaster(
 
   oty = 0;
   ety = 0;
-  for (i = 0, c = nexttiled(monitor->clients); c; c = nexttiled(c->next), i++)
+  for (i = 0, client = nexttiled(
+            monitor->clients);
+          client;
+          client = nexttiled(
+              client->next),
+          i++)
+  {
     if (i < monitor->nmaster)
       {
         /* nmaster clients are stacked vertically, in the center
          * of the screen */
         h = (monitor->wh - my) / (MIN(n, monitor->nmaster) - i);
         resize(
-            c,
+            client,
             (monitor->wx + mx) + hgap,
             (monitor->wy + my) + vgap,
-            (mw - (2*c->bw)) - (hgap * 2),
-            (h - (2*c->bw)) - (vgap * 2),
+            (mw - (2*client -> bw)) - (hgap * 2),
+            (h - (2*client -> bw)) - (vgap * 2),
             0);
-        my += HEIGHT(c) + (vgap * 2);
+        my += HEIGHT(client) + (vgap * 2);
       }
     else
       {
@@ -56,27 +70,28 @@ void centeredmaster(
           {
             h = (monitor->wh - ety) / ( (1 + n - i) / 2);
             resize(
-                c,
+                client,
                 (monitor->wx) + hgap,
                 (monitor->wy + ety) + vgap,
-                (tw - (2*c->bw)) - (hgap * 2),
-                (h - (2*c->bw)) - (vgap * 2),
+                (tw - (2*client->bw)) - (hgap * 2),
+                (h - (2*client->bw)) - (vgap * 2),
                 0);
-            ety += HEIGHT(c) + (vgap * 2);
+            ety += HEIGHT(client) + (vgap * 2);
           }
         else
           {
             h = (monitor->wh - oty) / ((1 + n - i) / 2);
             resize(
-                c,
+                client,
                 (monitor->wx + mx + mw) + hgap,
                 (monitor->wy + oty) + vgap,
-                (tw - (2*c->bw)) - (hgap * 2),
-                (h - (2*c->bw)) - (vgap * 2),
+                (tw - (2*client->bw)) - (hgap * 2),
+                (h - (2*client->bw)) - (vgap * 2),
                 0);
-            oty += HEIGHT(c) + (vgap * 2);
+            oty += HEIGHT(client) + (vgap * 2);
           }
       }
+  }
 }
 
 /*
